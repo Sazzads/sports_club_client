@@ -12,8 +12,8 @@ const NavBar = () => {
             })
     }
     const navbarOptions = <>
-        <li><a>Home</a></li>
-        <li><a>Instructors</a> </li>
+        <li><Link to='/'>Home</Link></li>
+        <li><Link to='/'>Instructors</Link> </li>
         <li><a>Classes</a></li>
         {user && <li><a>DashBoard</a></li>}
     </>
@@ -41,13 +41,12 @@ const NavBar = () => {
                         <NavLink to='/login' className="btn me-1">Login</NavLink>
                     }
                     {user &&
-                        <label tabIndex={0} className="btn btn-ghost btn-circle avatar tooltip tooltip-left " data-tip={user?.displayName}>
+                        <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                             <div className="w-10 rounded-full ">
                                 <img className='w-full' src={user?.photoURL} />
                             </div>
                         </label>
                     }
-
                 </div>
             </div>
         </>

@@ -4,49 +4,62 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProvider';
 
 const Registration = () => {
-    const {loading, setLoading,signInWithGoogle,createUser,updateUserProfile,} = useContext(AuthContext)
+    const { loading, setLoading, signInWithGoogle, createUser, updateUserProfile, } = useContext(AuthContext)
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const onSubmit = async (data) => {
-        const {name,email,password}=data;
+        const { name, email, password, confirmPassword } = data;
+        if (password === confirmPassword) {
 
-        //upload and get url image from imgBB
-        const formData = new FormData();
-        formData.append('image', data.image[0]);
-        try {
-          const response = await fetch(`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_KEY}`, {
-            method: 'POST',
-            body: formData,
-          });
-    
-          const result = await response.json();
-          const imageUrl=result.data.url
-          console.log(imageUrl);
-          createUser(email,password)
-          .then(result=>{
-            console.log(result.user);
-            updateUserProfile(name,imageUrl)
-          })
-          .catch(err=>{
-            console.log(err.message);
-          })
-          
-        } catch (error) {
-          console.log(error);
-          // Handle error cases
+
+            //upload and get url image from imgBB
+            const formData = new FormData();
+            formData.append('image', data.image[0]);
+            try {
+                const response = await fetch(`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_KEY}`, {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                const result = await response.json();
+                const imageUrl = result.data.url
+                console.log(imageUrl);
+
+                createUser(email, password)
+                    .then(result => {
+                        console.log(result.user);
+                        updateUserProfile(name, imageUrl)
+                            .then(result => {
+                                console.log(result.user)
+                            })
+                            .catch(err => {
+                                setLoading(true)
+                                console.log(err.message)
+                            })
+
+
+                    })
+                    .catch(err => {
+                        console.log(err.message);
+                    })
+
+            } catch (error) {
+                console.log(error);
+                // Handle error cases
+            }
+            console.log(email);
         }
-        console.log(email);
     }
     //handle google sign in
     const handleGoogleSignIn = () => {
         signInWithGoogle()
-          .then(result => {
-            console.log(result.user)
-          })
-          .catch(err => {
-            setLoading(false)
-            console.log(err.message)
-          })
-      }
+            .then(result => {
+                console.log(result.user)
+            })
+            .catch(err => {
+                setLoading(false)
+                console.log(err.message)
+            })
+    }
 
 
     return (
@@ -75,19 +88,41 @@ const Registration = () => {
                                 <label className="label">
                                     <span className="label-text">Password</span>
                                 </label>
-                                <input {...register("password", { required: true })} type="password" placeholder="password" className="input input-bordered" />
+                                <input {...register("password", {
+                                    required: 'Password is required',
+                                    minLength: {
+                                        value: 6,
+                                        message: 'Password must be at least 6 characters long',
+                                    },
+                                    pattern: {
+                                        value: /^(?=.*[a-z])(?=.*[0-9])[a-zA-Z0-9]+$/,
+                                        message: 'Password must contain at least one lowercase letter and one number',
+                                    },
+                                })} type="password" placeholder="password" className="input input-bordered" />
+                                {errors.password && <p>{errors.password.message}</p>}
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Confirm Password</span>
                                 </label>
-                                <input {...register("confirmPassword", { required: true })} type="password" placeholder="Confirm Password" className="input input-bordered" />
+                                <input {...register("confirmPassword", {
+                                    required: 'Password is required',
+                                    minLength: {
+                                        value: 6,
+                                        message: 'Password must be at least 6 characters long',
+                                    },
+                                    pattern: {
+                                        value: /^(?=.*[a-z])(?=.*[0-9])[a-zA-Z0-9]+$/,
+                                        message: 'Password must contain at least one lowercase letter and one number',
+                                    },
+                                })} type="password" placeholder="Confirm Password" className="input input-bordered" />
+                                {errors.password && <p>{errors.password.message}</p>}
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Photo URL</span>
                                 </label>
-                                <input {...register("image", { required: true })}  type='file' placeholder="Photo URL" className="input input-bordered" />
+                                <input {...register("image", { required: true })} type='file' placeholder="Photo URL" className="input input-bordered" />
                             </div>
                             <h2>Already An Account? Please <Link to='/login'>Login</Link></h2>
                             <div className="form-control mt-6">
