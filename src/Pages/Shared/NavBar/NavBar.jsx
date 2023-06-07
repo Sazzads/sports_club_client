@@ -1,16 +1,25 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import { AuthContext } from '../../../providers/AuthProvider';
 
 const NavBar = () => {
+    const { user, logOut } = useContext(AuthContext)
+    const handleLogOut = () => {
+        logOut()
+            .then()
+            .catch(error => {
+                console.log(error);
+            })
+    }
     const navbarOptions = <>
         <li><a>Home</a></li>
         <li><a>Instructors</a> </li>
         <li><a>Classes</a></li>
-        <li><a>DashBoard</a></li>
+        {user && <li><a>DashBoard</a></li>}
     </>
     return (
         <>
-            <div className="navbar bg-base-300 fixed z-10 max-w-screen-xl">
+            <div className="navbar bg-base-300  max-w-screen-xl">
                 <div className="navbar-start">
                     <div className="dropdown">
                         <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -28,7 +37,17 @@ const NavBar = () => {
                     </ul>
                 </div>
                 <div className="navbar-end">
-                    <a className="btn">Button</a>
+                    {user ? <NavLink onClick={handleLogOut} className="btn  me-1">LogOut</NavLink> :
+                        <NavLink to='/login' className="btn me-1">Login</NavLink>
+                    }
+                    {user &&
+                        <label tabIndex={0} className="btn btn-ghost btn-circle avatar tooltip tooltip-left " data-tip={user?.displayName}>
+                            <div className="w-10 rounded-full ">
+                                <img className='w-full' src={user?.photoURL} />
+                            </div>
+                        </label>
+                    }
+
                 </div>
             </div>
         </>
