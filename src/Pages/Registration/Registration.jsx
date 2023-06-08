@@ -1,69 +1,82 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from "react-hook-form";
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProvider';
+import { toast } from 'react-hot-toast';
 
 const Registration = () => {
+    const navigate = useNavigate();
+    const location = useLocation()
+    const from = location.state?.from.pathname || '/'
+    const [success, setSuccess] = useState('')
     const { loading, setLoading, signInWithGoogle, createUser, updateUserProfile, } = useContext(AuthContext)
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const onSubmit = async (data) => {
         const { name, email, password, confirmPassword } = data;
-        if (password === confirmPassword) {
-
-
-            //upload and get url image from imgBB
-            const formData = new FormData();
-            formData.append('image', data.image[0]);
-            try {
-                const response = await fetch(`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_KEY}`, {
-                    method: 'POST',
-                    body: formData,
-                });
-
-                const result = await response.json();
-                const imageUrl = result.data.url
-                console.log(imageUrl);
-
-                createUser(email, password)
-                    .then(result => {
-                        console.log(result.user);
-                        updateUserProfile(name, imageUrl)
-                            .then(result => {
-                                console.log(result.user)
-                            })
-                            .catch(err => {
-                                setLoading(true)
-                                console.log(err.message)
-                            })
-
-
-                    })
-                    .catch(err => {
-                        console.log(err.message);
-                    })
-
-            } catch (error) {
-                console.log(error);
-                // Handle error cases
-            }
-            console.log(email);
+        if (password !== confirmPassword) {
+            return toast.error('Password not matched')
         }
+
+        //upload and get url image from imgBB
+        const formData = new FormData();
+        formData.append('image', data.image[0]);
+        try {
+            const response = await fetch(`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_KEY}`, {
+                method: 'POST',
+                body: formData,
+            });
+
+            const result = await response.json();
+            const imageUrl = result.data.url
+            console.log(imageUrl);
+
+            createUser(email, password)
+                .then(result => {
+                    console.log(result.user);
+                    updateUserProfile(name, imageUrl)
+                        .then(result => {
+                            console.log(result.user)
+                            navigate(from, { replace: true })
+                            setSuccess('user signup')
+                        })
+                        .catch(err => {
+                            setLoading(true)
+                            console.log(err.message)
+                        })
+
+
+                })
+                .catch(err => {
+                    console.log(err.message);
+                })
+
+        } catch (error) {
+            console.log(error);
+            // Handle error cases
+        }
+        console.log(email);
     }
+
     //handle google sign in
     const handleGoogleSignIn = () => {
         signInWithGoogle()
             .then(result => {
                 console.log(result.user)
+                toast.success('Registration SuccessFull')
+                navigate(from, { replace: true })
+
             })
             .catch(err => {
                 setLoading(false)
                 console.log(err.message)
+                toast.error(err.message)
             })
     }
 
 
     return (
         <div>
+            <h2>{success}</h2>
             <div className="hero min-h-screen bg-base-200">
                 <div className="hero-content flex-col lg:flex-row-reverse">
                     <div className="text-center lg:text-left">
@@ -95,8 +108,8 @@ const Registration = () => {
                                         message: 'Password must be at least 6 characters long',
                                     },
                                     pattern: {
-                                        value: /^(?=.*[a-z])(?=.*[0-9])[a-zA-Z0-9]+$/,
-                                        message: 'Password must contain at least one lowercase letter and one number',
+                                        value: /^(?=.*[A-Z])(?=.*[!@#$%^&*])/,
+                                        message: 'Password must contain at least one UpperCase letter and one Special Characters',
                                     },
                                 })} type="password" placeholder="password" className="input input-bordered" />
                                 {errors.password && <p>{errors.password.message}</p>}
@@ -112,8 +125,9 @@ const Registration = () => {
                                         message: 'Password must be at least 6 characters long',
                                     },
                                     pattern: {
-                                        value: /^(?=.*[a-z])(?=.*[0-9])[a-zA-Z0-9]+$/,
-                                        message: 'Password must contain at least one lowercase letter and one number',
+                                        value: /^(?=.*[A-Z])(?=.*[!@#$%^&*])/,
+                                        message: 'Password must contain at least one UpperCase letter and one Special Characters',
+
                                     },
                                 })} type="password" placeholder="Confirm Password" className="input input-bordered" />
                                 {errors.password && <p>{errors.password.message}</p>}

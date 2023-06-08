@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useContext } from 'react';
 import { useForm } from "react-hook-form";
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProvider';
+import toast from 'react-hot-toast';
 const Login = () => {
+    const [showPassword, setShowPassword] = useState(false);
     const { loading, setLoading, signInWithGoogle, signIn, } = useContext(AuthContext)
-
+    const navigate = useNavigate();
+    const location = useLocation()
+    const from = location.state?.from.pathname || '/'
+    const togglePassword = () => {
+        setShowPassword(!showPassword);
+    };
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const onSubmit = data => {
@@ -13,6 +20,7 @@ const Login = () => {
         signIn(email, password)
             .then(result => {
                 console.log(result.user)
+                navigate(from, { replace: true })
             })
             .catch(err => {
                 setLoading(false)
@@ -24,6 +32,8 @@ const Login = () => {
         signInWithGoogle()
             .then(result => {
                 console.log(result.user)
+                toast.success("Successful")
+                navigate(from, { replace: true })
 
             })
             .catch(err => {
@@ -52,9 +62,12 @@ const Login = () => {
                                 <label className="label">
                                     <span className="label-text">Password</span>
                                 </label>
-                                <input {...register("password", { required: true })} placeholder="password" className="input input-bordered" />
+                                <input {...register("password", { required: true })} type={showPassword ? 'text' : 'password'} placeholder="password" className="input input-bordered" />
+                                <button className='text-right my-1 text-red-600' type="button" onClick={togglePassword}>
+                                    {showPassword ? 'Hide Password' : 'Show Password'}
+                                </button>
                             </div>
-                            <h2>Don't Have An Account? Please <Link to='/register'>Register</Link></h2>
+                            <h2>Don't Have An Account? Please <Link className='text-red-600' to='/register'>Register</Link></h2>
                             <div className="form-control mt-6">
                                 <input className="btn btn-primary" type="submit" value="Login" />
                             </div>
