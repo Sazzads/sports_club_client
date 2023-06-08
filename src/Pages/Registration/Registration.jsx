@@ -9,9 +9,8 @@ const Registration = () => {
     const navigate = useNavigate();
     const location = useLocation()
     const from = location.state?.from.pathname || '/'
-    const [success, setSuccess] = useState('')
-    const { loading, setLoading, signInWithGoogle, createUser, updateUserProfile,logOut } = useContext(AuthContext);
-    
+    const { loading, setLoading, signInWithGoogle, createUser, updateUserProfile, logOut } = useContext(AuthContext);
+
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const url = `https://api.imgbb.com/1/upload?key=${img_BB_token}`
 
@@ -31,11 +30,11 @@ const Registration = () => {
                     const imgUrl = imgRes.data.display_url;
                     const { name, email, password, confirmPassword } = data;
                     const data2 = { name, email, password, photo: imgUrl, confirmPassword }
-                    console.log(data2);
+                    // console.log(data2);
                     createUser(data2.email, data2.password)
                         .then(result => {
                             const loggedUser = result.user;
-                            console.log(loggedUser);
+                            // console.log(loggedUser);
                             updateUserProfile(data2.name, data2.photo)
                                 .then(() => {
                                     const savedUser = { name: data2.name, email: data2.email }
@@ -52,29 +51,34 @@ const Registration = () => {
                                                 toast.success('registration successful')
                                                 logOut()
                                                 navigate(from, { replace: true })
-                                                
                                             }
-
-
                                         })
                                 })
-
                         })
-
                 }
             })
-     
-
-
     };
 
     //handle google sign in
     const handleGoogleSignIn = () => {
         signInWithGoogle()
             .then(result => {
-                console.log(result.user)
+                const loggedUser = (result.user)
+                const savedUser = { name: loggedUser.displayName, email: loggedUser.email }
+
                 toast.success('Registration SuccessFull')
-                navigate(from, { replace: true })
+                fetch('http://localhost:5000/users', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(savedUser)
+                })
+                    .then(res => res.json())
+                    .then(() => {
+                        toast.success('registration successful')
+                        navigate(from, { replace: true })
+                    })
 
             })
             .catch(err => {
@@ -87,7 +91,6 @@ const Registration = () => {
 
     return (
         <div>
-            <h2>{success}</h2>
             <div className="hero min-h-screen bg-base-200">
                 <div className="hero-content flex-col lg:flex-row-reverse">
                     <div className="text-center lg:text-left">

@@ -6,13 +6,27 @@ import { router } from './Routes/Routes.jsx'
 import AuthProvider from './providers/AuthProvider'
 import { Toaster } from 'react-hot-toast'
 
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query'
+
+const queryClient = new QueryClient()
+
+
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AuthProvider>
-      <div className='max-w-screen-xl mx-auto'>
-        <Toaster></Toaster>
+      <QueryClientProvider client={queryClient}>
+        <div className='max-w-screen-xl mx-auto'>
+          <Toaster></Toaster>
           <RouterProvider router={router} />
-      </div>
+        </div>
+      </QueryClientProvider>
     </AuthProvider>
   </React.StrictMode>,
 )
