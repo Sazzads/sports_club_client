@@ -3,59 +3,70 @@ import { useForm } from "react-hook-form";
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProvider';
 import { toast } from 'react-hot-toast';
+const img_BB_token = import.meta.env.VITE_IMGBB_KEY
 
 const Registration = () => {
     const navigate = useNavigate();
     const location = useLocation()
     const from = location.state?.from.pathname || '/'
     const [success, setSuccess] = useState('')
-    const { loading, setLoading, signInWithGoogle, createUser, updateUserProfile, } = useContext(AuthContext)
+    const { loading, setLoading, signInWithGoogle, createUser, updateUserProfile,logOut } = useContext(AuthContext);
+    
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const onSubmit = async (data) => {
-        const { name, email, password, confirmPassword } = data;
-        if (password !== confirmPassword) {
+    const url = `https://api.imgbb.com/1/upload?key=${img_BB_token}`
+
+    const onSubmit = data => {
+        if (data.password !== data.confirmPassword) {
             return toast.error('Password not matched')
         }
-
-        //upload and get url image from imgBB
         const formData = new FormData();
-        formData.append('image', data.image[0]);
-        try {
-            const response = await fetch(`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_KEY}`, {
-                method: 'POST',
-                body: formData,
-            });
-
-            const result = await response.json();
-            const imageUrl = result.data.url
-            console.log(imageUrl);
-
-            createUser(email, password)
-                .then(result => {
-                    console.log(result.user);
-                    updateUserProfile(name, imageUrl)
+        formData.append('image', data.image[0])
+        fetch(url, {
+            method: 'POST',
+            body: formData
+        })
+            .then(res => res.json())
+            .then(imgRes => {
+                if (imgRes.success) {
+                    const imgUrl = imgRes.data.display_url;
+                    const { name, email, password, confirmPassword } = data;
+                    const data2 = { name, email, password, photo: imgUrl, confirmPassword }
+                    console.log(data2);
+                    createUser(data2.email, data2.password)
                         .then(result => {
-                            console.log(result.user)
-                            navigate(from, { replace: true })
-                            setSuccess('user signup')
+                            const loggedUser = result.user;
+                            console.log(loggedUser);
+                            updateUserProfile(data2.name, data2.photo)
+                                .then(() => {
+                                    const savedUser = { name: data2.name, email: data2.email }
+                                    fetch('http://localhost:5000/users', {
+                                        method: 'POST',
+                                        headers: {
+                                            'content-type': 'application/json'
+                                        },
+                                        body: JSON.stringify(savedUser)
+                                    })
+                                        .then(res => res.json())
+                                        .then(data => {
+                                            if (data.insertedId) {
+                                                toast.success('registration successful')
+                                                logOut()
+                                                navigate(from, { replace: true })
+                                                
+                                            }
+
+
+                                        })
+                                })
+
                         })
-                        .catch(err => {
-                            setLoading(true)
-                            console.log(err.message)
-                        })
+
+                }
+            })
+     
 
 
-                })
-                .catch(err => {
-                    console.log(err.message);
-                })
-
-        } catch (error) {
-            console.log(error);
-            // Handle error cases
-        }
-        console.log(email);
-    }
+    };
 
     //handle google sign in
     const handleGoogleSignIn = () => {
