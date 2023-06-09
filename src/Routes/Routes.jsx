@@ -10,6 +10,11 @@ import AddClasses from "../Pages/Instructors/AddClasses";
 import MyClasses from "../Pages/Instructors/MyClasses";
 import ManageUsers from "../Pages/Admin/ManageUsers";
 import ManageClasses from "../Pages/Admin/ManageClasses";
+import AdminRoute from "./AdminRoute";
+import InstructorRoute from "./InstructorRoute";
+import StudentRoutes from "./StudentRoutes";
+import MyEnorlledClasses from "../Pages/Student/MyEnorlledClasses";
+import MySelectedClasses from "../Pages/Student/MySelectedClasses";
 
 export const router = createBrowserRouter([
     {
@@ -39,19 +44,27 @@ export const router = createBrowserRouter([
                 children: [
                     {
                         path: 'addclasses',
-                        element: <AddClasses></AddClasses>
+                        element: <InstructorRoute><AddClasses></AddClasses></InstructorRoute>
                     },
                     {
                         path: 'myclasses',
-                        element: <MyClasses></MyClasses>
+                        element: <InstructorRoute><MyClasses></MyClasses></InstructorRoute>
                     },
                     {
                         path: 'manage-users',
-                        element: <ManageUsers></ManageUsers>
+                        element: <AdminRoute><ManageUsers></ManageUsers></AdminRoute>
                     },
                     {
                         path: 'manage-classes',
-                        element: <ManageClasses></ManageClasses>
+                        element: <AdminRoute><ManageClasses></ManageClasses></AdminRoute>
+                    },
+                    {
+                        path:'my-enrolled-classes',
+                        element:<StudentRoutes><MyEnorlledClasses></MyEnorlledClasses> </StudentRoutes>
+                    },
+                    {
+                        path:'my-selected-classes',
+                        element:<StudentRoutes><MySelectedClasses></MySelectedClasses> </StudentRoutes>
                     },
                 ]
             },
