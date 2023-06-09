@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../../providers/AuthProvider';
 import { useForm } from "react-hook-form";
+import useAxiosSecure from '../../hooks/useAxiosSecure';
+import { toast } from 'react-hot-toast';
 const img_BB_token = import.meta.env.VITE_IMGBB_KEY
 const AddClasses = () => {
     const { user } = useContext(AuthContext);
     const { email, displayName } = user
-    // console.log(email,displayName);
-    // console.log(user?.email, user?.displayName);
+    const [axiosSecure] = useAxiosSecure()
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const url = `https://api.imgbb.com/1/upload?key=${img_BB_token}`
@@ -26,11 +27,19 @@ const AddClasses = () => {
                 if (imgRes.success) {
                     const imgUrl = imgRes.data.display_url;
                     const { name, email, className, image, price, seat } = data;
-                    const addClass = { name, email, className, image: imgUrl, price: parseFloat(price), seat: parseInt(seat) }
+                    const status = "pending";
+                    const addClass = { name, email, className, image: imgUrl, price: parseFloat(price), seat: parseInt(seat), status }
                     console.log(addClass);
+                    axiosSecure.post('/allclasses', addClass)
+                        .then(data => {
+                            console.log('after add new class', data.data);
+                            if (data.data.insertedId) {
+                                toast.success('Your classes is submitted successfully')
+                            }
+                        })
                 }
             })
-        console.log(data)
+        // console.log(data)
     };
 
     return (
