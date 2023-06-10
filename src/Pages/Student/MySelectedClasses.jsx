@@ -3,33 +3,45 @@ import useCourseCart from '../../hooks/useCourseCart';
 
 const MySelectedClasses = () => {
     const [cart, refetch] = useCourseCart()
-    console.log(cart);
+    // console.log(cart);
     return (
-        <div>
-            <h2>my Selected classes</h2>
-            <h4>{cart?.length || 0}</h4>
+        <div className=''>
+            <div className='my-5'>
+                <h2 className='uppercase text-3xl text-center'>my Selected classes</h2>
+                <h4 className='text-center text-xl my-3'>Total Carts: {cart?.length || 0}</h4>
+            </div>
 
             <div className="overflow-x-auto">
                 <table className="table table-zebra">
                     {/* head */}
                     <thead>
                         <tr>
-                            <th></th>
-                            <th>Name</th>
-                            <th>Job</th>
-                            <th>Favorite Color</th>
+                            <th>#</th>
+                            <th>Course Name</th>
+                            <th>Instructor Name</th>
+                            <th>Seats</th>
+                            <th>Price</th>
+                            <th><button>Action</button></th>
+                            <th><button>Payment</button></th>
                         </tr>
                     </thead>
                     <tbody>
                         {/* row 1 */}
-                        
-                        <tr>
-                            <th>1</th>
-                            <td>Cy Ganderton</td>
-                            <td>Quality Control Specialist</td>
-                            <td>Blue</td>
-                        </tr>
-                       
+                        {
+                            cart.map((course, index) =>
+                                <tr key={course._id}>
+                                    <th>{index + 1}</th>
+                                    <th>{course.className}</th>
+                                    <th>{course.name}</th>
+                                    <th>{course.price}</th>
+                                    <th>{course.seat}</th>
+                                    <th><button className='btn btn-sm btn-error'>Delete</button></th>
+                                    <th><button className='btn btn-sm btn-info'>Payment</button></th>
+                                </tr>
+                            )
+                        }
+
+
                     </tbody>
                 </table>
             </div>
