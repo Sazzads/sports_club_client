@@ -1,12 +1,11 @@
 import React from 'react';
 import useAuth from './useAuth';
 import { useQuery } from 'react-query';
-// import { useQuery,loading } from 'react-query';
 
 const useCourseCart = () => {
     const { user,loading } = useAuth()
 
-    const { isLoading, data: cart = [], error, isError, refetch } = useQuery({
+    const {  data: cart = [],refetch } = useQuery({
         queryKey: ['carts', user?.email],
         enabled:!loading,
         queryFn: async () => {
@@ -14,7 +13,7 @@ const useCourseCart = () => {
             return response.json()
         }
     })
-    return [cart, refetch, isLoading]
+    return [cart, refetch]
 };
 
 export default useCourseCart;
