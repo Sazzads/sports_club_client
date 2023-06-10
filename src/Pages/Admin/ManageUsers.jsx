@@ -6,10 +6,12 @@ import useAxiosSecure from '../../hooks/useAxiosSecure';
 const ManageUsers = () => {
     const [axiosSecure]=useAxiosSecure()
     const [disabledButtons, setDisabledButtons] = useState([]);
+    
     const { data: users = [], refetch } = useQuery(['users'], async () => {
         const res = await axiosSecure.get('/users')
         return res.data;
     })
+
     const handleAdminMake = (user) => {
         fetch(`http://localhost:5000/users/admin/${user._id}`, {
             method: 'PATCH'

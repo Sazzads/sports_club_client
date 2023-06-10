@@ -3,7 +3,6 @@ import Main from "../Layout/Main";
 import Home from "../Pages/Home/Home/Home";
 import Login from "../Pages/Login/Login";
 import Registration from "../Pages/Registration/Registration";
-import Classes from "../Pages/Classes/Classes";
 import PrivateRoute from "./PrivateRoute";
 import DashBoard from "../Layout/DashBoard";
 import AddClasses from "../Pages/Instructors/AddClasses";
@@ -15,6 +14,8 @@ import InstructorRoute from "./InstructorRoute";
 import StudentRoutes from "./StudentRoutes";
 import MyEnorlledClasses from "../Pages/Student/MyEnorlledClasses";
 import MySelectedClasses from "../Pages/Student/MySelectedClasses";
+import AllClasses from "../Pages/Home/AllClasses/AllClasses";
+import AllInstructors from "../Pages/Home/AllInstructors/AllInstructors";
 
 export const router = createBrowserRouter([
     {
@@ -36,7 +37,11 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/classes',
-                element: <Classes></Classes>
+                element: <AllClasses></AllClasses>
+            },
+            {
+                path: '/instructors',
+                element: <AllInstructors></AllInstructors>
             },
             {
                 path: '/dashboard',
