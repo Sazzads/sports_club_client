@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import useCourseCart from "../../../hooks/useCourseCart";
 
 
 const AllClasses = () => {
@@ -15,7 +16,7 @@ const AllClasses = () => {
         console.log(courseItem);
 
         if (user && user.email) {
-            const courseItemCart = { courseId: data._id, className: data.className, email: data.email, image: data.image, name: data.name, price: data.price, seat: data.seat }
+            const courseItemCart = { courseId: data._id, className: data.className, email: user.email, image: data.image, name: data.name, price: data.price, seat: data.seat }
             fetch('http://localhost:5000/carts', {
                 method: 'POST',
                 headers: {
@@ -26,6 +27,7 @@ const AllClasses = () => {
                 .then(res => res.json())
                 .then(data => {
                     if (data.insertedId) {
+                       
                         toast.success('Your Course is Added on Dashboard, Please Enroll')
                     }
                 })
