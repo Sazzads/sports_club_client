@@ -18,12 +18,13 @@ import AllClasses from "../Pages/Home/AllClasses/AllClasses";
 import AllInstructors from "../Pages/Home/AllInstructors/AllInstructors";
 import Payment from "../Pages/Payment/Payment";
 import PaymentHistory from "../Pages/Payment/PaymentHistory";
+import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 
 export const router = createBrowserRouter([
     {
         path: "/",
         element: <Main></Main>,
-        errorElement: <h1>Error</h1>,
+        errorElement: <ErrorPage></ErrorPage>,
         children: [
             {
                 path: '/',
