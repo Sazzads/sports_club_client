@@ -13,7 +13,7 @@ const DashBoard = () => {
         <div>
             <div className="drawer lg:drawer-open">
                 <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-                <div className="drawer-content flex flex-col items-center">
+                <div className="drawer-content flex flex-col ">
                     {/* Page content here */}
                     <h2 className='text-5xl my-4'>DashBoard</h2>
                     <Outlet></Outlet>
@@ -50,6 +50,9 @@ const DashBoard = () => {
                         {isStudent && <>
                             <li><Link to='my-selected-classes'>My Selected Classes</Link></li>
                             <li><Link to='my-enrolled-classes'>My Enrolled CLasses</Link></li>
+                            <li><Link to='payments'>Payment</Link></li>
+
+
                         </>}
 
 

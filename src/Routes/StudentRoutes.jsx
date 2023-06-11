@@ -11,7 +11,7 @@ const StudentRoutes =({ children }) => {
     if (user && isStudent) {
         return children;
     }
-    return <Navigate to='/' state={{ from: location }} replace></Navigate>
+    return <Navigate to='/login' state={{ from: location }} replace></Navigate>
 
 };
 
