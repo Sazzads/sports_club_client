@@ -4,6 +4,7 @@ import { useQuery } from 'react-query';
 import { toast } from 'react-hot-toast';
 
 const ManageClasses = () => {
+    const [disabledButtons, setDisabledButtons] = useState([]);
     const [Id, setId] = useState(null)
     const [axiosSecure] = useAxiosSecure()
     const { data: classes = [], refetch } = useQuery(['allclasses'], async () => {
@@ -28,7 +29,7 @@ const ManageClasses = () => {
                 }
             })
 
-        // setDisabledButtons((prevDisabledButtons) => [...prevDisabledButtons, user._id]);
+        setDisabledButtons((prevDisabledButtons) => [...prevDisabledButtons, classes._id]);
     }
     //handle deny
     const handleDeny = (classes) => {
@@ -43,9 +44,12 @@ const ManageClasses = () => {
                 }
             })
 
-        // setDisabledButtons((prevDisabledButtons) => [...prevDisabledButtons, user._id]);
+        setDisabledButtons((prevDisabledButtons) => [...prevDisabledButtons, classes._id]);
     }
 
+    const isButtonDisabled = (userId) => {
+        return disabledButtons.includes(userId);
+    };
 
     const handleFeedback = (event) => {
         event.preventDefault();
@@ -54,20 +58,7 @@ const ManageClasses = () => {
         // console.log(newFeadback);
         const id = event.target.id.value;
         console.log(id);
-        // const url = `http:/localhost:5000/allclass/${id}`
-        // console.log(url);
-        // fetch(url, {
-        //     method: 'PUT',
-        //     headers: {
-        //         'content-type': 'application/json'
-        //     },
-        //     body: JSON.stringify(newFeadback)
 
-        // })
-        //     .then(res => res.json())
-        //     .then(data => {
-        //         console.log(data);
-        //     })
 
         fetch(`http://localhost:5000/allclass/${id}`,{
             method:'PUT',
@@ -85,37 +76,6 @@ const ManageClasses = () => {
 
     }
 
-
-    // const currentUser = {
-    //     email: user.email,
-    // }
-    // fetch(`${import.meta.env.VITE_API_URL}/users/${user?.email}`, {
-    //     method: "PUT",
-    //     headers: {
-    //         'content-type': 'application/json'
-    //     },
-    //     body: JSON.stringify(currentUser)
-    // })
-    //     .then(res => res.json())
-    //     .then(data => {
-    //         console.log(data);
-    //     })
-
-    // const handleFeedback = ( classes) => {
-    //     console.log(classes._id);
-    //     // fetch('http://localhost:5000/users', {
-    //     //     method: 'POST',
-    //     //     headers: {
-    //     //         'content-type': 'application/json'
-    //     //     },
-    //     //     body: JSON.stringify(savedUser)
-    //     // })
-    //     //     .then(res => res.json())
-    //     //     .then(() => {
-    //     //         toast.success('registration successful')
-    //     //         navigate(from, { replace: true })
-    //     //     })
-    // }
 
 
     return (
@@ -154,7 +114,9 @@ const ManageClasses = () => {
                             <th>Available seat</th>
                             <th>Price</th>
                             <th>Status</th>
-                            <th>Action</th>
+                            <th>Approve</th>
+                            <th>Deny</th>
+                            <th>Feedback</th>
                         </tr>
                     </thead>
                     {
@@ -179,14 +141,19 @@ const ManageClasses = () => {
                                 <td>{classs?.seat}</td>
                                 <td>{classs?.price}</td>
                                 <td>{classs?.status}</td>
-                                <th className='flex flex-col'>
-                                    <button onClick={() => handleApprove(classs)} className='btn btn-xs bg-red-400'>{classs.status == 'approved' ? 'approved' : classs.status}</button>
-                                    <button onClick={() => handleDeny(classs)} className='btn btn-xs bg-red-400'>{classs.status == 'deny' ? 'deny' : classs.status}</button>
-                                    {/* <button className="btn btn-ghost btn-xs">Feedback</button> */}
-                                    <label onClick={() => setId(classs._id)} htmlFor="my_modal_6" className="btn">open modal</label>
+                                <th className=''>
+                                    <button onClick={() => handleApprove(classs)} disabled={isButtonDisabled(classs._id)} className='btn btn-xs bg-red-400'>{classs.status == 'approved' ? 'approved' : 'click'}</button>
+                                </th>       
+                                <th className=''>
 
 
+                                    <button onClick={() => handleDeny(classs)} disabled={isButtonDisabled(classs._id)} className='btn btn-xs bg-red-400'>{classs.status == 'deny' ? 'deny' : 'click'}</button>
                                 </th>
+
+                                <th className=''>  
+                                    <label onClick={() => setId(classs._id)} htmlFor="my_modal_6" className="btn btn-xs">Feedback</label>
+                                </th>
+
                             </tr>
                         </tbody>)
                     }

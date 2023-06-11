@@ -2,8 +2,10 @@ import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import React, { useEffect, useState } from 'react';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import useAuth from '../../hooks/useAuth';
+import { toast } from 'react-hot-toast';
+// import './formStyle.css'
 
-const CheckoutForm = ({ price }) => {
+const CheckoutForm = ({ price, cart }) => {
     const stripe = useStripe()
     const elements = useElements()
     const { user } = useAuth();
@@ -12,12 +14,12 @@ const CheckoutForm = ({ price }) => {
     const [process, setProcess] = useState(false)
     const [clientSecret, setClientSecret] = useState('')
     const [trxID, setTrxId] = useState('')
-
-    
+    // console.log(cart);
+    // console.log(cart[0].email,cart[0].courseId,cart[0].seat);
     useEffect(() => {
         axiosSecure.post('/create-payment-intent', { price })
             .then(res => {
-                console.log(res.data.clientSecret);
+                // console.log(res.data.clientSecret);
                 setClientSecret(res.data.clientSecret)
             })
     }, [price, axiosSecure]);
@@ -76,22 +78,26 @@ const CheckoutForm = ({ price }) => {
 
             const payment = {
                 email: user?.email,
-                transactionId: paymentIntent.id,
+                trxID: paymentIntent.id,
                 price,
                 date: new Date(),
-                quantity: cart.length,
-                cartItems: cart.map(item => item._id),
-                menu_Items: cart.map(item => item.menuItemId),
-                orderStatus: 'service pending',
-                itemNames: cart.map(item => item.name)
+                email: cart[0]?.email,
+                courseId: cart.map(data => data.courseId),
+                cartId: cart.map(data => data._id),
+                seat: cart[0]?.seat,
+                className: cart[0]?.className,
+                image: cart[0]?.image,
             }
-            axiosSecure.post('/payments', payment)
+            axiosSecure.post('/pays', payment)
                 .then(res => {
                     console.log(res.data);
-                    if (res.data.result.insertedId) {
-                        // display confirm 
+                    if (res.data.insertedId) {
+                        // console.log(res.data); 
+                        toast.success("Payment succesful")
                     }
                 })
+
+
         }
 
     }

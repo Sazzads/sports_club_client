@@ -25,17 +25,6 @@ const DashBoard = () => {
                     <ul className="menu p-4 w-80 h-full bg-base-200 text-base-content">
                         {/* Sidebar content here */}
 
-                        {/* {
-                            isAdmin ? <>
-
-                                <li><Link to='manage-users'>Manage Users</Link></li>
-                                <li><Link to='manage-classes'>Manage Classes</Link></li>
-                            </> : <>
-
-                                <li className='divider'></li>
-                                <li><Link to='/'>Home</Link></li>
-                            </>
-                        } */}
                         {
                             isAdmin && <>
 
@@ -50,7 +39,7 @@ const DashBoard = () => {
                         {isStudent && <>
                             <li><Link to='my-selected-classes'>My Selected Classes</Link></li>
                             <li><Link to='my-enrolled-classes'>My Enrolled CLasses</Link></li>
-                            <li><Link to='payments'>Payment</Link></li>
+                            {/* <li><Link to='payments'>Payment</Link></li> */}
 
 
                         </>}

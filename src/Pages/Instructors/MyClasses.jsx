@@ -56,8 +56,10 @@ const MyClasses = () => {
                                 <td>{classe.price}</td>
                                 <td>{classe.seat}</td>
                                 <td>{classe.status}</td>
-                                <td>{classe.feedback}</td>
-                                <th><button className='btn'>UPDATE</button></th>
+                                <td>  {classe.status === "deny" ?
+                                    <>{classe.feedback}</>
+                                    : <></>}</td>
+                                <th><button className='btn btn-info btn-sm'>UPDATE</button></th>
 
                             </tr>)
                         }

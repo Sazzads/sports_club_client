@@ -1,11 +1,14 @@
-import React from 'react';
+
 import useCourseCart from '../../hooks/useCourseCart';
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
 
 const MySelectedClasses = () => {
     const [cart, refetch] = useCourseCart()
-    const total = cart.reduce((sum, coursePrice) => coursePrice.price + sum, 0)
+
+
+
+    // const total = cart.reduce((sum, coursePrice) => coursePrice.price + sum, 0)
     // console.log(cart);
     const handleDelete = (course) => {
 
@@ -36,13 +39,19 @@ const MySelectedClasses = () => {
             }
         })
     }
+
+
+    // const handlePay=(course=>{
+
+    // })
+
     return (
         <div className=''>
             <div className='my-5'>
                 <h2 className='uppercase text-3xl text-center'>my Selected classes</h2>
                 <h4 className='text-center text-xl my-3'>Total Carts: {cart?.length || 0}</h4>
                 <div className='flex justify-between my-4'>
-                    <h2>total price:{total}</h2>
+                    {/* <h2>total price:{total}</h2> */}
                     {/* <Link to='/payments' className='btn btn-sm btn-info'>Payment</Link> */}
                 </div>
             </div>
@@ -58,6 +67,7 @@ const MySelectedClasses = () => {
                             <th>Price</th>
                             <th>Seats</th>
                             <th>Action</th>
+                            <th>Payment</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -71,6 +81,7 @@ const MySelectedClasses = () => {
                                     <th>{course.price}</th>
                                     <th>{course.seat}</th>
                                     <th><button onClick={() => handleDelete(course)} className='btn btn-sm btn-error'>Delete</button></th>
+                                    <th><Link to={`/payments/${course._id}`} className='btn btn-sm btn-error'>Pay</Link></th>
                                 </tr>
                             )
                         }

@@ -3,17 +3,24 @@ import useAuth from "../../../hooks/useAuth";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import useCourseCart from "../../../hooks/useCourseCart";
+import useAdmin from "../../../hooks/useAdmin";
+import useInstructor from "../../../hooks/useInstructor";
 
 
 const AllClasses = () => {
     const [datas, setDatas] = useState([])
     const { user } = useAuth()
     const navigate = useNavigate()
+    const [isAdmin] = useAdmin()
+    const [isInstructor] = useInstructor()
     // console.log(user);
     // const { _id, className, email, image, name, price, seat } = datas
+
+
     const handleAddTocart = data => {
         const courseItem = { courseId: data._id, className: data.className, email: data.email, image: data.image, name: data.name, price: data.price, seat: data.seat }
         console.log(courseItem);
+
 
         if (user && user.email) {
             const courseItemCart = { courseId: data._id, className: data.className, email: user.email, image: data.image, name: data.name, price: data.price, seat: data.seat }
@@ -27,7 +34,7 @@ const AllClasses = () => {
                 .then(res => res.json())
                 .then(data => {
                     if (data.insertedId) {
-                       
+
                         toast.success('Your Course is Added on Dashboard, Please Enroll')
                     }
                 })
@@ -64,10 +71,12 @@ const AllClasses = () => {
                                 <p>Instructor Name: {data.name}</p>
                                 <p>Available Seats: {data.seat}</p>
                                 <div className="card-actions justify-end">
-                                    <button onClick={() => handleAddTocart(data)} className="btn btn-primary">Select</button>
+                                    <button onClick={() => handleAddTocart(data)} disabled={isAdmin||isInstructor}  className="btn btn-primary">Select</button>
                                 </div>
                             </div>
                         </div>
+
+                        // disabled={isAdmin||isInstructor} 
                     )
                 }
             </div>

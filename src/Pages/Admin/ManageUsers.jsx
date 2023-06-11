@@ -4,9 +4,9 @@ import { useQuery } from 'react-query';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 const ManageUsers = () => {
-    const [axiosSecure]=useAxiosSecure()
+    const [axiosSecure] = useAxiosSecure()
     const [disabledButtons, setDisabledButtons] = useState([]);
-    
+
     const { data: users = [], refetch } = useQuery(['users'], async () => {
         const res = await axiosSecure.get('/users')
         return res.data;
@@ -23,7 +23,7 @@ const ManageUsers = () => {
                     toast.success(`${user.name} ADMIN MAKES SUCCESSFUL`)
                 }
             })
-            setDisabledButtons((prevDisabledButtons) => [...prevDisabledButtons, user._id]);
+        setDisabledButtons((prevDisabledButtons) => [...prevDisabledButtons, user._id]);
     }
 
     const handleInstructorMake = (user) => {
@@ -37,12 +37,12 @@ const ManageUsers = () => {
                     toast.success(`${user.name} INSTRUCTOR MAKES SUCCESSFUL`)
                 }
             })
-            setDisabledButtons((prevDisabledButtons) => [...prevDisabledButtons, user._id]);
+        setDisabledButtons((prevDisabledButtons) => [...prevDisabledButtons, user._id]);
 
     }
     const isButtonDisabled = (userId) => {
         return disabledButtons.includes(userId);
-      };
+    };
 
 
 
@@ -72,14 +72,17 @@ const ManageUsers = () => {
                                     <th>{index + 1}</th>
                                     <td>{user.name}</td>
                                     <td>{user.email}</td>
-                                    <td><button onClick={() => handleAdminMake(user)} disabled={isButtonDisabled(user._id)}  className='btn btn-xs bg-red-400'>{user.role == 'admin' ? 'admin' : 'users'}</button></td>
-                                    <td><button onClick={() => handleInstructorMake(user)} disabled={isButtonDisabled(user._id)} className='btn btn-xs  bg-red-400'>{user.role == 'instructor' ? 'instructor' : 'users'}</button></td>
-                                   
+
+                                    {/* <td><button onClick={() => handleAdminMake(user)}  className='btn btn-xs bg-red-400'>{user.role == 'admin' ? 'admin' : 'users'}</button></td>
+                                    <td><button onClick={() => handleInstructorMake(user)} className='btn btn-xs  bg-red-400'>{user.role == 'instructor' ? 'instructor' : 'users'}</button></td> */}
+
+                                    <td><button onClick={() => handleAdminMake(user)} disabled={isButtonDisabled(user._id)} className='btn btn-xs bg-red-400'>{user.role == 'admin' ? 'admin' : 'click'}</button></td>
+                                    <td><button onClick={() => handleInstructorMake(user)} disabled={isButtonDisabled(user._id)} className='btn btn-xs  bg-red-400'>{user.role == 'instructor' ? 'instructor' : 'click'}</button></td>
+
 
                                 </tr>)
                         }
-
-
+                        {/* disabled={isButtonDisabled(user._id)} disabled={isButtonDisabled(user._id)}  */}
                     </tbody>
                 </table>
             </div>

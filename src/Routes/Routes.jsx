@@ -17,6 +17,7 @@ import MySelectedClasses from "../Pages/Student/MySelectedClasses";
 import AllClasses from "../Pages/Home/AllClasses/AllClasses";
 import AllInstructors from "../Pages/Home/AllInstructors/AllInstructors";
 import Payment from "../Pages/Payment/Payment";
+import PaymentHistory from "../Pages/Payment/PaymentHistory";
 
 export const router = createBrowserRouter([
     {
@@ -44,7 +45,15 @@ export const router = createBrowserRouter([
                 path: '/instructors',
                 element: <AllInstructors></AllInstructors>
             },
-
+            {
+                path: '/payments/:id',
+                element: <StudentRoutes><Payment></Payment></StudentRoutes>,
+                loader: ({ params }) => fetch(`http://localhost:5000/carts/${params.id}`),
+            },
+            {
+                path: '/paymenthistory',
+                element: <PaymentHistory></PaymentHistory>
+            },
 
             {
                 path: '/dashboard',
@@ -74,10 +83,7 @@ export const router = createBrowserRouter([
                         path: 'my-selected-classes',
                         element: <StudentRoutes><MySelectedClasses></MySelectedClasses> </StudentRoutes>,
                     },
-                    {
-                        path: 'payments',
-                        element: <StudentRoutes><Payment></Payment></StudentRoutes>
-                    },
+
                 ]
             },
         ]
