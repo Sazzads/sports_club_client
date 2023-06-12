@@ -7,7 +7,7 @@ const MyEnorlledClasses = () => {
     const [data, setData] = useState([])
     useEffect(() => {
         if (user && user.email) {
-            fetch(`http://localhost:5000/pays/?email=${user.email}`)
+            fetch(`https://server-site-sazzads.vercel.app/pays/?email=${user.email}`)
                 .then(res => res.json())
                 .then(data => {
                     console.log(data);

@@ -21,7 +21,7 @@ const MySelectedClasses = () => {
             confirmButtonText: 'Delete!'
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`http://localhost:5000/carts/${course._id}`, {
+                fetch(`https://server-site-sazzads.vercel.app/carts/${course._id}`, {
                     method: 'DELETE'
                 })
                     .then(res => res.json())

@@ -17,7 +17,7 @@ const AllClasses = () => {
 
     // useEffect(() => {
     //     const getCourse = async () => {
-    //         const res = await fetch("http://localhost:5000/allclasses")
+    //         const res = await fetch("https://server-site-sazzads.vercel.app/allclasses")
     //         const data = await res.json()
     //         setCourse(data)
     //     }
@@ -32,7 +32,7 @@ const AllClasses = () => {
 
         if (user && user.email) {
             const courseItemCart = { courseId: data._id, className: data.className, email: user.email, image: data.image, name: data.name, price: data.price, seat: data.seat }
-            fetch('http://localhost:5000/carts', {
+            fetch('https://server-site-sazzads.vercel.app/carts', {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json'
@@ -55,7 +55,7 @@ const AllClasses = () => {
 
 
     useEffect(() => {
-        fetch('http://localhost:5000/approvedclass/approved')
+        fetch('https://server-site-sazzads.vercel.app/approvedclass/approved')
             .then(res => res.json())
             .then(data => {
                 // console.log(data);

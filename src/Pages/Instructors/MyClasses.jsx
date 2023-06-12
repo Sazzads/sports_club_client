@@ -7,7 +7,7 @@ const MyClasses = () => {
     const { user } = useAuth();
     // const [classes, setClasses] = useState([])
     // useEffect(() => {
-    //     fetch(`http://localhost:5000/allclasses/${user?.email}`)
+    //     fetch(`https://server-site-sazzads.vercel.app/allclasses/${user?.email}`)
     //         .then(res => res.json())
     //         .then(data => {
     //             setClasses(data)

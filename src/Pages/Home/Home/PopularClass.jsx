@@ -6,7 +6,7 @@ const PopularClass = () => {
   const [datas, setDatas] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/approvedclass/approved')
+    fetch('https://server-site-sazzads.vercel.app/approvedclass/approved')
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -14,10 +14,10 @@ const PopularClass = () => {
       });
   }, []);
 
-  // Sort the datas array based on EnrolledSeat in descending order
+  // Sort 
   const sortedData = [...datas].sort((a, b) => b.EnrolledSeat - a.EnrolledSeat);
   
-  // Show only the first 6 data items
+  // Show  first 6 data items
   const firstSixData = sortedData.slice(0, 6);
 
   return (
@@ -36,7 +36,7 @@ const PopularClass = () => {
               <img src={course?.image} alt="Shoes" className="rounded-xl" />
             </figure>
             <div className="card-body items-center text-center">
-              <h2 className="card-title">Name: {course.name}</h2>
+              <h2 className="card-title">Name: {course.className}</h2>
               <p>Email: {course.email}</p>
               <p>Total seats: {course.seat}</p>
               <p>Enrolled Seats: {course?.EnrolledSeat}</p>

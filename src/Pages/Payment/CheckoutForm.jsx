@@ -99,7 +99,7 @@ const CheckoutForm = ({ price, cart }) => {
 
             //new api for seat update
 
-            // fetch(`http://localhost:5000/allclass/${cart[0].courseId}`, {
+            // fetch(`https://server-site-sazzads.vercel.app/allclass/${cart[0].courseId}`, {
             //     method: 'PATCH'
             // })
             //     .then(res => res.json())
@@ -118,7 +118,7 @@ const CheckoutForm = ({ price, cart }) => {
             // const newAvailableSeat = { availableSeat }
 
             console.log(cart[0].courseId);
-            fetch(`http://localhost:5000/aallclass/${cart[0].courseId}`, {
+            fetch(`https://server-site-sazzads.vercel.app/aallclass/${cart[0].courseId}`, {
                 method: 'PUT',
                 headers: {
                     'content-type': 'application/json'

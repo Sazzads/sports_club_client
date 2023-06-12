@@ -18,7 +18,7 @@ const ManageClasses = () => {
     //handle approve
     const handleApprove = (classes) => {
         // console.log(classes._id);
-        fetch(`http://localhost:5000/allclass/${classes._id}`, {
+        fetch(`https://server-site-sazzads.vercel.app/allclass/${classes._id}`, {
             method: 'PATCH'
         })
             .then(res => res.json())
@@ -33,7 +33,7 @@ const ManageClasses = () => {
     }
     //handle deny
     const handleDeny = (classes) => {
-        fetch(`http://localhost:5000/allclasss/${classes._id}`, {
+        fetch(`https://server-site-sazzads.vercel.app/allclasss/${classes._id}`, {
             method: 'PATCH'
         })
             .then(res => res.json())
@@ -60,7 +60,7 @@ const ManageClasses = () => {
         console.log(id);
 
 
-        fetch(`http://localhost:5000/allclass/${id}`,{
+        fetch(`https://server-site-sazzads.vercel.app/allclass/${id}`,{
             method:'PUT',
             headers:{
                 'content-type':'application/json'

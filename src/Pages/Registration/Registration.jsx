@@ -38,7 +38,7 @@ const Registration = () => {
                             updateUserProfile(data2.name, data2.photo)
                                 .then(() => {
                                     const savedUser = { name: data2.name, email: data2.email,image:data2.photo,role:'student' }
-                                    fetch('http://localhost:5000/users', {
+                                    fetch('https://server-site-sazzads.vercel.app/users', {
                                         method: 'POST',
                                         headers: {
                                             'content-type': 'application/json'
@@ -67,7 +67,7 @@ const Registration = () => {
                 const savedUser = { name: loggedUser.displayName, email: loggedUser.email,image:loggedUser?.photoURL, role:'student' }
 
                 toast.success('Registration SuccessFull')
-                fetch('http://localhost:5000/users', {
+                fetch('https://server-site-sazzads.vercel.app/users', {
                     method: 'POST',
                     headers: {
                         'content-type': 'application/json'
@@ -95,7 +95,7 @@ const Registration = () => {
                 <div className="hero-content flex-col lg:flex-row-reverse">
                     <div className="text-center lg:text-left">
                         <h1 className="text-5xl font-bold">Register now!</h1>
-                        <p className="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
+                        <p className="py-6">At our Sports Club, we believe in the power of unity, competition, and a passion for sports. Whether you're a professional athlete, a dedicated sports enthusiast, or someone looking to lead an active lifestyle,</p>
                     </div>
                     <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
                         <form onSubmit={handleSubmit(onSubmit)} className="card-body">

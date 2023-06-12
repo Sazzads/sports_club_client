@@ -42,7 +42,7 @@ const AuthProvider = ({ children }) => {
 
             //jwt token and add to mlocal storage
             if (currentUser) {
-                axios.post('http://localhost:5000/jwt', { email: currentUser.email })
+                axios.post('https://server-site-sazzads.vercel.app/jwt', { email: currentUser.email })
                     .then(data => {
                         // console.log(data.data.token);
                         localStorage.setItem('access-token', data.data.token)
