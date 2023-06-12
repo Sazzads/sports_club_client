@@ -41,7 +41,7 @@ const MyClasses = () => {
                             <th>#</th>
                             <th>Name</th>
                             <th>Price</th>
-                            <th>Seat</th>
+                            <th>Enrolled Students</th>
                             <th>Status</th>
                             <th>Feedback</th>
                             <th>UPDATE</th>
@@ -54,7 +54,7 @@ const MyClasses = () => {
                                 <th>{index + 1}</th>
                                 <td>{classe.className}</td>
                                 <td>{classe.price}</td>
-                                <td>{classe.seat}</td>
+                                <td>{classe.EnrolledSeat}</td>
                                 <td>{classe.status}</td>
                                 <td>  {classe.status === "deny" ?
                                     <>{classe.feedback}</>

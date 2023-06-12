@@ -9,7 +9,7 @@ const PopularInstructor = () => {
         fetch('http://localhost:5000/allinstructor/instructor')
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 setInstructors(data.slice(0, 6));
             });
     }, []);
@@ -20,7 +20,7 @@ const PopularInstructor = () => {
                 className="box"
                 whileHover={{ scale: [null, 0.9, 1.4] }}
                 transition={{ duration: 0.3 }}>
-                <h2 className='text-center font-semibold uppercase text-5xl my-8'>See Our Instructors</h2>
+                <h2 className='text-center font-semibold uppercase text-5xl my-8'>Our popular Instructors</h2>
 
             </motion.div>
             <div className='grid md:grid-cols-3 gap-4 mx-auto my-5'>

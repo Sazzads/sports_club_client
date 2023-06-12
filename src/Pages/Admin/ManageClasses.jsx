@@ -55,7 +55,7 @@ const ManageClasses = () => {
         event.preventDefault();
         const feedback = event.target.feedback.value;
         const newFeadback = { feedback }
-        // console.log(newFeadback);
+        console.log(newFeadback);
         const id = event.target.id.value;
         console.log(id);
 
@@ -75,8 +75,6 @@ const ManageClasses = () => {
 
 
     }
-
-
 
     return (
         <div>

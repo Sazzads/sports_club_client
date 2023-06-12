@@ -82,7 +82,7 @@ const CheckoutForm = ({ price, cart }) => {
                 price,
                 date: new Date(),
                 email: cart[0]?.email,
-                courseId: cart.map(data => data.courseId),
+                courseId: cart[0].courseId,
                 cartId: cart.map(data => data._id),
                 seat: cart[0]?.seat,
                 className: cart[0]?.className,
@@ -97,7 +97,39 @@ const CheckoutForm = ({ price, cart }) => {
                     }
                 })
 
+            //new api for seat update
 
+            // fetch(`http://localhost:5000/allclass/${cart[0].courseId}`, {
+            //     method: 'PATCH'
+            // })
+            //     .then(res => res.json())
+            //     .then(data => {
+            //         if (data.modifiedCount) {
+            //             console.log('update class');
+            //         }
+            //     })
+
+
+            const seat = 1;
+            const availableSeat = {
+                availableSeat: seat
+            }
+            console.log(availableSeat);
+            // const newAvailableSeat = { availableSeat }
+
+            console.log(cart[0].courseId);
+            fetch(`http://localhost:5000/aallclass/${cart[0].courseId}`, {
+                method: 'PUT',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify(availableSeat)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                })
+            //--------------------
         }
 
     }

@@ -13,8 +13,16 @@ const AllClasses = () => {
     const navigate = useNavigate()
     const [isAdmin] = useAdmin()
     const [isInstructor] = useInstructor()
-    // console.log(user);
-    // const { _id, className, email, image, name, price, seat } = datas
+    // const [course, setCourse] = useState(null)
+
+    // useEffect(() => {
+    //     const getCourse = async () => {
+    //         const res = await fetch("http://localhost:5000/allclasses")
+    //         const data = await res.json()
+    //         setCourse(data)
+    //     }
+    //     getCourse();
+    // }, [])
 
 
     const handleAddTocart = data => {
@@ -66,17 +74,17 @@ const AllClasses = () => {
                     datas.map(data =>
                         <div key={data._id} className="card card-compact w-96 bg-base-100 shadow-xl">
                             <figure><img src={data.image} alt="Shoes" /></figure>
-                            <div className="card-body">
+                            {/* <div className="card-body"> */}
+                            <div className={`card-body ${data.seat - data.EnrolledSeat === 0 ? 'bg-red-600' : ''}`}>
                                 <h2 className="card-title">Class Name: {data.className}</h2>
                                 <p>Instructor Name: {data.name}</p>
-                                <p>Available Seats: {data.seat}</p>
+                                <p>Total Seats: {data.seat}</p>
+                                <p>Available Seats: {data.seat && data.EnrolledSeat ? data.seat - data.EnrolledSeat : "N/A"}</p>
                                 <div className="card-actions justify-end">
-                                    <button onClick={() => handleAddTocart(data)} disabled={isAdmin||isInstructor}  className="btn btn-primary">Select</button>
+                                    <button onClick={() => handleAddTocart(data)} disabled={isAdmin || isInstructor || data.seat - data.EnrolledSeat == 0} className="btn btn-primary">Select</button>
                                 </div>
                             </div>
                         </div>
-
-                        // disabled={isAdmin||isInstructor} 
                     )
                 }
             </div>

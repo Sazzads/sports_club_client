@@ -6,7 +6,7 @@ const AllInstructors = () => {
         fetch('http://localhost:5000/allinstructor/instructor')
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 setInstructors(data)
             })
     }, [])

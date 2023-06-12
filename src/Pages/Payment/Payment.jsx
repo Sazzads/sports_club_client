@@ -8,7 +8,6 @@ import { Link, useLoaderData } from "react-router-dom";
 
 const stripPromise = loadStripe(import.meta.env.VITE_PAYMENT_PK_GATEWAY)
 
-
 const Payment = () => {
     const cart = useLoaderData()
     const total = cart[0].price

@@ -19,7 +19,7 @@ const Login = () => {
         const { email, password } = data;
         signIn(email, password)
             .then(result => {
-                console.log(result.user)
+                // console.log(result.user)
                 navigate(from, { replace: true })
             })
             .catch(err => {
