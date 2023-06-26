@@ -15,3 +15,20 @@ live website link: [Link](https://work-12-ad843.web.app/)
 - sweetalert2
 - react-hot-toast
 - react-hook-form
+
+
+email and password:
+admin1@mail.com
+admin2@mail.com
+admin3@mail.com
+password: Admin@
+
+instructor1@mail.com
+instructor2@mail.com
+instructor3@mail.com
+password: Instructor@
+
+student1@mail.com
+student2@mail.com
+student3@mail.com
+password: Student@
