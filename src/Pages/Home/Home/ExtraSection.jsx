@@ -9,7 +9,7 @@ const ExtraSection = () => {
                 <div className="hero-content flex-col lg:flex-row-reverse">
                     <div>
                         <h1 className='bg-base-200  text-center text-5xl my-10 font-semibold'>Contact Us</h1>
-                        <img src={pic} className="max-w-sm rounded-lg shadow-2xl" />
+                        <img src={pic} className="max-w-sm rounded-lg shadow-2xl transition duration-300 ease-in-out hover:scale-110" />
                     </div>
 
                     <div className="card-body ">
